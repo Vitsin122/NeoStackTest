@@ -1,0 +1,78 @@
+﻿<Window x:Class="TestFeatures.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TestFeatures"
+        xmlns:local1="clr-namespace:TestFeatures.View.Converters"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Control.FontSize" Value="20"/>
+            <Setter Property="ItemsControl.FontWeight" Value="Normal"/>
+            <Setter Property="Margin" Value="1"/>
+        </Style>
+        <Style TargetType="GroupBox">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="TextAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="10"/>
+        </Style>
+        <local1:StrToIntConverter x:Key="StrToInt"/>
+        <local1:StrToDoubleConverter x:Key="StrToDouble"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="85*"/>
+            <ColumnDefinition Width="173*"/>
+            <ColumnDefinition Width="292*"/>
+            <ColumnDefinition Width="250*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="81*"/>
+            <RowDefinition Height="198*"/>
+            <RowDefinition Height="80*"/>
+            <RowDefinition Height="80*"/>
+        </Grid.RowDefinitions>
+        <ListBox Margin="10" Padding="10" Grid.ColumnSpan="2" Grid.RowSpan="2" SelectedItem="{Binding SelectedTB}">
+            <TextBlock Text="Линейная"/>
+            <Separator Opacity="0" Height="10" Margin="0"/>
+            <TextBlock Text="Квадратичная"/>
+            <Separator Opacity="0" Height="10" Margin="0"/>
+            <TextBlock Text="Кубическая"/>
+            <Separator Opacity="0" Height="10" Margin="0"/>
+            <TextBlock Text="4-ой степени"/>
+            <Separator Opacity="0" Height="10" Margin="0"/>
+            <TextBlock Text="5-ой степени"/>
+        </ListBox>
+        <Label Grid.Column="2" HorizontalAlignment="Left" Content="C"/>
+        <ComboBox Grid.Column="2" Grid.Row="1" Margin="10,10,10,145" ItemsSource="{Binding CList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding selectedFunc.C, Mode=TwoWay, Converter={StaticResource StrToInt}}"/>
+        <Label Grid.Row="2" Content="A" Height="50" Width="30"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Height="28" Text="{Binding selectedFunc.A, Converter={StaticResource StrToInt}}"/>
+        <Label Grid.Row="3" Content="B" Height="50" Width="30"/>
+        <TextBox Grid.Row="3" Grid.Column="1" Height="28" Text="{Binding selectedFunc.B, Converter={StaticResource StrToInt}}"/>
+
+        <DataGrid  Grid.Column="3" Grid.RowSpan="4" Margin="10" GridLinesVisibility="All" ItemsSource="{Binding FuncList}" AutoGenerateColumns="False" SelectedItem="{Binding selectedFunc}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="f(x,y)" Binding="{Binding Result, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="x" Binding="{Binding X, Mode=TwoWay, Converter={StaticResource StrToDouble}}"/>
+                <DataGridTextColumn Header="y" Binding="{Binding Y, Mode=TwoWay, Converter={StaticResource StrToDouble}}"/>
+            </DataGrid.Columns>
+            <DataGrid.CommandBindings>
+            </DataGrid.CommandBindings>
+        </DataGrid>
+    </Grid>
+</Window>
